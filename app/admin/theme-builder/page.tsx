@@ -4,9 +4,8 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
-// Next.js Dynamic Import (SSR disable karke browser object resolution fix karta hai)
 const ThemeCustomizer = dynamic(
-  () => import('@/components/theme/ThemeCustomizer'),
+  () => import('@/components/theme/ThemeCustomizer').then((mod) => mod.default),
   {
     ssr: false,
     loading: () => (
