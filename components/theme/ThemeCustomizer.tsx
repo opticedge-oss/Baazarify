@@ -12,7 +12,7 @@ interface ThemeCustomizerProps {
   storeId?: string;
 }
 
-export default ThemeCustomizer; ({
+export default function ThemeCustomizer({
   initialConfig = defaultThemeConfig,
   previewUrl = '/store-preview',
   storeId = 'default-store',
@@ -20,7 +20,7 @@ export default ThemeCustomizer; ({
   const [config, setConfig] = useState<ThemeConfig>(initialConfig);
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   const sendIframeMessage = (type: string, payload: any) => {
     if (iframeRef.current && iframeRef.current.contentWindow) {
@@ -36,10 +36,10 @@ export default ThemeCustomizer; ({
     setIsSaving(true);
     try {
       const result = await saveStoreThemeConfig(storeId, config);
-      if (result.success) {
+      if (result?.success) {
         alert('Theme layout saved successfully!');
       } else {
-        alert(`Save failed: ${result.error}`);
+        alert(`Save failed: ${result?.error ?? 'Unknown error'}`);
       }
     } catch (err) {
       console.error('Error saving theme config:', err);
@@ -53,9 +53,7 @@ export default ThemeCustomizer; ({
     setConfig((prev) => ({
       ...prev,
       sections: (prev.sections || []).map((sec) =>
-        sec.id === sectionId
-          ? { ...sec, settings: { ...(sec.settings || {}), [settingId]: value } }
-          : sec
+        sec.id === sectionId ? { ...sec, settings: { ...(sec.settings || {}), [settingId]: value } } : sec
       ),
     }));
 
@@ -77,13 +75,13 @@ export default ThemeCustomizer; ({
   };
 
   const handleAddSection = (type: string) => {
-    const schema = SECTION_SCHEMAS[type];
+    const schema = SECTION_SCHEMAS[type as keyof typeof SECTION_SCHEMAS];
     if (!schema) return;
 
     const newId = `${type}_${Date.now()}`;
     const defaultSettings: Record<string, any> = {};
 
-    schema.settings.forEach((s) => {
+    (schema.settings || []).forEach((s) => {
       defaultSettings[s.id] = s.default;
     });
 
@@ -114,8 +112,8 @@ export default ThemeCustomizer; ({
     if (activeSectionId === sectionId) setActiveSectionId(null);
   };
 
-  const activeSection = (config.sections || []).find((s) => s.id === activeSectionId);
-  const activeSchema = activeSection ? SECTION_SCHEMAS[activeSection.type] : null;
+  const activeSection = (config.sections || []).find((s) => s.id === activeSectionId) || null;
+  const activeSchema = activeSection ? SECTION_SCHEMAS[activeSection.type as keyof typeof SECTION_SCHEMAS] : null;
 
   return (
     <div className="flex h-screen w-full bg-slate-900 text-slate-100 overflow-hidden font-sans">
@@ -201,9 +199,9 @@ export default ThemeCustomizer; ({
                       <div className="flex items-center gap-3">
                         <input
                           type="range"
-                          min={setting.min || 1}
-                          max={setting.max || 10}
-                          step={setting.step || 1}
+                          min={setting.min ?? 1}
+                          max={setting.max ?? 10}
+                          step={setting.step ?? 1}
                           value={currentValue ?? 0}
                           onChange={(e) =>
                             handleSettingChange(
@@ -249,7 +247,7 @@ export default ThemeCustomizer; ({
                 {(config.layout_order || []).map((secId, index) => {
                   const sec = (config.sections || []).find((s) => s.id === secId);
                   if (!sec) return null;
-                  const schema = SECTION_SCHEMAS[sec.type];
+                  const schema = SECTION_SCHEMAS[sec.type as keyof typeof SECTION_SCHEMAS];
 
                   return (
                     <div
@@ -301,7 +299,7 @@ export default ThemeCustomizer; ({
                       onClick={() => handleAddSection(type)}
                       className="w-full text-left p-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded text-xs text-slate-300 font-medium transition"
                     >
-                      + {SECTION_SCHEMAS[type].name}
+                      + {SECTION_SCHEMAS[type as keyof typeof SECTION_SCHEMAS].name}
                     </button>
                   ))}
                 </div>
@@ -335,5 +333,4 @@ export default ThemeCustomizer; ({
       </div>
     </div>
   );
-        }
-      
+}
