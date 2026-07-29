@@ -4,8 +4,9 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
+// Dynamic import with explicit default module resolution
 const ThemeCustomizer = dynamic(
-  () => import('@/components/theme/ThemeCustomizer').then((mod) => mod.default),
+  () => import('@/components/theme/ThemeCustomizer').then((mod) => mod.default || mod),
   {
     ssr: false,
     loading: () => (
