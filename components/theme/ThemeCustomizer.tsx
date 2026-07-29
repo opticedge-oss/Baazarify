@@ -12,7 +12,7 @@ interface ThemeCustomizerProps {
   storeId?: string;
 }
 
-export default function ThemeCustomizer({
+export default ThemeCustomizer; ({
   initialConfig = defaultThemeConfig,
   previewUrl = '/store-preview',
   storeId = 'default-store',
