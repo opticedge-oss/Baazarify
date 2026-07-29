@@ -4,14 +4,14 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
-// Dynamic import with explicit default module resolution
+// SSR ko false kar ke dynamic import karein taake Turbopack object resolution error na de
 const ThemeCustomizer = dynamic(
-  () => import('@/components/theme/ThemeCustomizer').then((mod) => mod.default || mod),
+  () => import('../../../components/theme/ThemeCustomizer'),
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-screen w-full items-center justify-center bg-slate-950 text-slate-400 font-mono text-sm">
-        Loading Theme Builder Engine...
+      <div className="flex h-screen w-full items-center justify-center bg-slate-950 text-white text-sm">
+        Loading Theme Builder...
       </div>
     ),
   }
