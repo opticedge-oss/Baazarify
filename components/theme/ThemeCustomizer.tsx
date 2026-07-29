@@ -12,8 +12,7 @@ interface ThemeCustomizerProps {
   storeId?: string;
 }
 
-export default ThemeCustomizer;
-({
+export default function ThemeCustomizer({
   initialConfig = defaultThemeConfig,
   previewUrl = '/store-preview',
   storeId = 'default-store',
@@ -23,19 +22,16 @@ export default ThemeCustomizer;
   const [isSaving, setIsSaving] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Helper: Live Preview iframe ko PostMessage send karne ke liye
   const sendIframeMessage = (type: string, payload: any) => {
     if (iframeRef.current && iframeRef.current.contentWindow) {
       iframeRef.current.contentWindow.postMessage({ type, payload }, '*');
     }
   };
 
-  // Iframe load hotay hi initial layout sync karna
   const handleIframeLoad = () => {
     sendIframeMessage('REORDER_SECTIONS', { layoutOrder: config.layout_order || [] });
   };
 
-  // Supabase DB mein layout save karne ka handler
   const handleSaveConfig = async () => {
     setIsSaving(true);
     try {
@@ -53,7 +49,6 @@ export default ThemeCustomizer;
     }
   };
 
-  // Setting Change Handler
   const handleSettingChange = (sectionId: string, settingId: string, value: any) => {
     setConfig((prev) => ({
       ...prev,
@@ -67,7 +62,6 @@ export default ThemeCustomizer;
     sendIframeMessage('UPDATE_SECTION_SETTING', { sectionId, settingId, value });
   };
 
-  // Section Move Up/Down Handler
   const handleMoveSection = (index: number, direction: 'up' | 'down') => {
     const currentOrder = config.layout_order || [];
     const newOrder = [...currentOrder];
@@ -82,7 +76,6 @@ export default ThemeCustomizer;
     sendIframeMessage('REORDER_SECTIONS', { layoutOrder: newOrder });
   };
 
-  // Add Section Handler
   const handleAddSection = (type: string) => {
     const schema = SECTION_SCHEMAS[type];
     if (!schema) return;
@@ -110,7 +103,6 @@ export default ThemeCustomizer;
     setActiveSectionId(newId);
   };
 
-  // Remove Section Handler
   const handleRemoveSection = (sectionId: string) => {
     setConfig((prev) => ({
       ...prev,
@@ -127,9 +119,8 @@ export default ThemeCustomizer;
 
   return (
     <div className="flex h-screen w-full bg-slate-900 text-slate-100 overflow-hidden font-sans">
-      {/* LEFT SIDEBAR: CONTROLS */}
+      {/* LEFT SIDEBAR */}
       <div className="w-full md:w-96 border-r border-slate-800 bg-slate-950 flex flex-col h-full">
-        {/* Customizer Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between">
           <div>
             <h1 className="font-bold text-lg text-white">Theme Customizer</h1>
@@ -144,9 +135,7 @@ export default ThemeCustomizer;
           </button>
         </div>
 
-        {/* Sidebar Body */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {/* SECTION EDITOR VIEW */}
           {activeSection && activeSchema ? (
             <div className="space-y-4">
               <button
@@ -251,7 +240,6 @@ export default ThemeCustomizer;
               })}
             </div>
           ) : (
-            /* SECTIONS LIST VIEW */
             <div className="space-y-4">
               <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                 Active Sections
@@ -302,7 +290,6 @@ export default ThemeCustomizer;
                 })}
               </div>
 
-              {/* ADD SECTION SELECTION */}
               <div className="pt-4 border-t border-slate-800">
                 <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-2">
                   Add New Section
@@ -327,7 +314,6 @@ export default ThemeCustomizer;
       {/* RIGHT SIDEBAR: LIVE PREVIEW IFRAME */}
       <div className="flex-1 bg-slate-900 p-4 md:p-6 flex justify-center items-center overflow-hidden">
         <div className="w-full h-full max-w-5xl bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-800 flex flex-col">
-          {/* Iframe Top Bar */}
           <div className="bg-slate-100 px-4 py-2 border-b border-slate-200 flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
               <div className="w-3 h-3 rounded-full bg-red-400" />
@@ -338,7 +324,6 @@ export default ThemeCustomizer;
             <div className="w-12" />
           </div>
 
-          {/* Iframe Screen */}
           <iframe
             ref={iframeRef}
             src={previewUrl}
@@ -350,4 +335,5 @@ export default ThemeCustomizer;
       </div>
     </div>
   );
-                    }
+        }
+      
