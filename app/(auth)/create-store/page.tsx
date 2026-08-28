@@ -40,7 +40,17 @@ export default function CreateStorePage() {
                                                                                                                       .toLowerCase()
                                                                                                                               .replace(/[^a-z0-9]/g, "-");
 
-                                                                                                                                    const { error: merchantError } = await supabase
+                                                                                                                                        const { error: tenantError } = await supabase
+                                                                                                                                          .from("tenants")
+                                                                                                                                            .insert({
+                                                                                                                                                id: tenantId,
+                                                                                                                                              name: storeName,
+                                                                                                                                                  slug: subdomain,
+                                                                                                                                                    });
+
+                                                                                                                                                      if (tenantError) throw tenantError;
+
+                                                                                                                                        const { error: merchantError } = await supabase
                                                                                                                                             .from("merchants")
                                                                                                                                                     .insert({
                                                                                                                                                               user_id: user.id,

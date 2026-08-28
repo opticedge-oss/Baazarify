@@ -52,4 +52,9 @@ export interface NavItem {
                                                                                                                                                           icon: "⚙️",
                                                                                                                                                               href: "/settings",
                                                                                                                                                                 },
+                                                                                                                                                              {
+                                                                                                                                                                title: "Payments",
+                                                                                                                                                                  icon: "💳",
+                                                                                                                                                                    href: "/settings/payments",
+                                                                                                                                                                    },
                                                                                                                                                                 ];

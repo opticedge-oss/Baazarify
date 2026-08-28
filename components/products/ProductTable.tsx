@@ -14,7 +14,7 @@ interface Product {
               status: string;
               }
 
-              export default function ProductTable({ products }: { products: Product[] }) {
+              export default function ProductTable({ products = [] }: { products?: Product[] }) {
                 const router = useRouter();
 
                   const handleDelete = async (id: string) => {

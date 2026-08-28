@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import ProductTable from "@/components/products/ProductTable";
+import ProductListingTable from "@/components/products/ProductListingTable";
 
 export default async function ProductsPage() {
   const supabase = await createClient();
@@ -40,7 +40,7 @@ export default async function ProductsPage() {
                                                                                                                                   </Link>
                                                                                                                                         </div>
 
-                                                                                                                                              <ProductTable products={products || []} />
+                                                                                                                                              <ProductListingTable products={products || []} />
                                                                                                                                                   </div>
                                                                                                                                                     );
                                                                                                                                                     }

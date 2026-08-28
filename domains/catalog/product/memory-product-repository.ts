@@ -21,8 +21,10 @@ export class MemoryProductRepository implements ProductRepository {
                                     async update(id: string, product: Partial<Product>): Promise<Product | null> {
                                         const index = this.products.findIndex(p => p.id === id);
                                             if (index === -1) return null;
-                                                this.products[index] = { ...this.products[index], ...product };
-                                                    return this.products[index];
+                                                const existingProduct = this.products[index];
+                                                  if (!existingProduct) return null;
+                                                    this.products[index] = { ...existingProduct, ...product };
+                                                      return this.products[index] ?? null;
                                                       }
 
                                                         async delete(id: string): Promise<boolean> {

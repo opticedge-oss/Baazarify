@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase/client";
-import type { ProductRepository } from "@/domain/catalog/product/product-repository";
-import type { Product } from "@/domain/catalog/product/product-types";
+import type { ProductRepository } from "@/domains/catalog/product/product-repository";
+import type { Product } from "@/domains/catalog/product/product-types";
 
 export class SupabaseProductRepository implements ProductRepository {
   async findAll(tenantId?: string): Promise<Product[]> {

@@ -70,6 +70,8 @@ export default function ThemeCustomizer({
     if (targetIndex < 0 || targetIndex >= newOrder.length) return;
 
     const [movedId] = newOrder.splice(index, 1);
+    if (!movedId) return;
+
     newOrder.splice(targetIndex, 0, movedId);
 
     setConfig((prev) => ({ ...prev, layout_order: newOrder }));
@@ -295,15 +297,20 @@ export default function ThemeCustomizer({
                   Add New Section
                 </label>
                 <div className="grid grid-cols-1 gap-2">
-                  {Object.keys(SECTION_SCHEMAS).map((type) => (
-                    <button
-                      key={type}
-                      onClick={() => handleAddSection(type)}
-                      className="w-full text-left p-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded text-xs text-slate-300 font-medium transition"
-                    >
-                      + {SECTION_SCHEMAS[type as keyof typeof SECTION_SCHEMAS].name}
-                    </button>
-                  ))}
+                  {Object.keys(SECTION_SCHEMAS).map((type) => {
+                    const schema = SECTION_SCHEMAS[type as keyof typeof SECTION_SCHEMAS];
+                    if (!schema) return null;
+
+                    return (
+                      <button
+                        key={type}
+                        onClick={() => handleAddSection(type)}
+                        className="w-full text-left p-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded text-xs text-slate-300 font-medium transition"
+                      >
+                        + {schema.name}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>

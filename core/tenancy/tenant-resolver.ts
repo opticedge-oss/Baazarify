@@ -10,7 +10,7 @@ export class TenantResolver {
             host: string
               ): Tenant | null {
                   const subdomain =
-                        host.split(".")[0];
+                        host.split(".")[0] ?? "";
 
                             const tenant =
                                   this.manager.findBySubdomain(

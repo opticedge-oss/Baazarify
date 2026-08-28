@@ -1,35 +1,39 @@
-import Link from "next/link";
-import AppShell from "@/components/layout/AppShell";
+import Link from 'next/link';
 
 export default function HomePage() {
   return (
-      <AppShell>
-            <div className="space-y-6">
-                    <div className="max-w-2xl space-y-3">
-                              <p className="text-sm uppercase tracking-[0.3em] text-emerald-400">
-                                          Baazarify Commerce OS
-                                                    </p>
+      <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-6 text-center">
+            <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
+                    <div>
+                              <h1 className="text-2xl font-bold text-white tracking-wide">
+                                          BAAZARIFY ENGINE
+                                                    </h1>
+                                                              <p className="text-xs text-slate-400 mt-2">
+                                                                          Theme Customizer & Live Storefront Architecture
+                                                                                    </p>
+                                                                                            </div>
 
-                                                              <h1 className="text-4xl font-bold text-white">
-                                                                          Welcome to Baazarify
-                                                                                    </h1>
+                                                                                                    <div className="space-y-3">
+                                                                                                              <Link
+                                                                                                                          href="/admin/theme-builder"
+                                                                                                                                      className="block w-full py-3 px-4 bg-blue-600 hover:bg-blue-500 font-semibold text-sm rounded-xl transition shadow-lg shadow-blue-600/20"
+                                                                                                                                                >
+                                                                                                                                                            Open Theme Builder (Admin)
+                                                                                                                                                                      </Link>
 
-                                                                                              <p className="text-zinc-400">
-                                                                                                          Your main UI workspace is ready. Open the playground to preview
-                                                                                                                      components and pages.
-                                                                                                                                </p>
-                                                                                                                                        </div>
+                                                                                                                                                                                <Link
+                                                                                                                                                                                            href="/store-preview"
+                                                                                                                                                                                                        className="block w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold text-sm rounded-xl transition"
+                                                                                                                                                                                                                  >
+                                                                                                                                                                                                                              View Live Store Preview
+                                                                                                                                                                                                                                        </Link>
+                                                                                                                                                                                                                                                </div>
 
-                                                                                                                                                <div className="flex flex-wrap gap-3">
-                                                                                                                                                          <Link
-                                                                                                                                                                      href="/playground"
-                                                                                                                                                                                  className="rounded-lg bg-emerald-500 px-4 py-2 font-medium text-black transition hover:bg-emerald-400"
-                                                                                                                                                                                            >
-                                                                                                                                                                                                        Open Playground
-                                                                                                                                                                                                                  </Link>
-                                                                                                                                                                                                                          </div>
-                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                    </AppShell>
-                                                                                                                                                                                                                                      );
-                                                                                                                                                                                                                                      }
-                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                        <div className="pt-4 border-t border-slate-800/80 text-[11px] text-slate-500">
+                                                                                                                                                                                                                                                                  Next.js App Router • Live PostMessage Sync Active
+                                                                                                                                                                                                                                                                          </div>
+                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                      );
+                                                                                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                                                                                      
